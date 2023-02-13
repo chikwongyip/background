@@ -29,7 +29,14 @@ const getDetail = (id) => {
         }
     ]
 }
+const newBlog = (blogData = {}) => {
+    // blogData 包含属性可能有title 内容 时间
+    return{
+        id:3 // 执行完毕返回insert 的blog id
+    }
+}
 module.exports = {
     getList,
-    getDetail
+    getDetail,
+    newBlog
 }
