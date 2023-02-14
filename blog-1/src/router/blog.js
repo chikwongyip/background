@@ -20,10 +20,10 @@ const handleBlogRouter = (req, res) => {
         return new SuccessModel(blogDetail)
     }
 
-    if(method === "POST" && path === "api/blog/new"){
+    if(method === "POST" && path === "/api/blog/new"){
         const blogData = req.body
         const data = newBlog(blogData)
-        return SuccessModel(data)
+        return new SuccessModel(data)
     }
 
     if(method === "POST" && path === "api/blog/update"){
