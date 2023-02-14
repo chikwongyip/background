@@ -35,8 +35,23 @@ const newBlog = (blogData = {}) => {
         id:3 // 执行完毕返回insert 的blog id
     }
 }
+
+const updateBlog = (id,blogData = {}) => {
+    // id 就是blog更新的id
+    // blogData 包含属性可能有title 内容 时间
+    console.log('update blog',id, blogData)
+    return true
+}
+
+const deleteBlog = (id) => {
+    // 根据id 删除blog
+    console.log(id);
+    return false
+}
 module.exports = {
     getList,
     getDetail,
-    newBlog
+    newBlog,
+    updateBlog,
+    deleteBlog
 }
