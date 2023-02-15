@@ -10,7 +10,15 @@ if(env === "dev"){
         database:"myblog"
     }
 }
-
+if(env === "mac"){
+    MYSQL_CONF = {
+        host:"localhost",
+        user:"root",
+        password:"528478huaHUA@",
+        port:"3306",
+        database:"myblog"
+    }
+}
 if(env === "production"){
     MYSQL_CONF = {
         host:"127.0.0.1",

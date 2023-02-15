@@ -17,4 +17,4 @@ create table if not exists users
     password varchar(20) not null,
     realname varchar(10) not null
 );
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '528478huaHUA';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '528478huaHUA@';

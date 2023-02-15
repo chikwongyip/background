@@ -40,21 +40,32 @@ const newBlog = (blogData = {}) => {
 }
 
 const updateBlog = (id,blogData = {}) => {
-    let sql = `update blogs set content = '${blogData.content}',
-                                title = '${blogData.title}',
-                                author = '${blogData.author}'
+    const title = blogData.title
+    const content = blogData.content
+    let sql = `update blogs set content = '${content}',
+                                title = '${title}'
                             where id = ${id}`
     // UPDATE `myblog`.`blogs` SET `title` = 'title2', `content` = 'content3', `author` = 'wyman1' WHERE (`id` = '3');
     // id 就是blog更新的id
     // blogData 包含属性可能有title 内容 时间
-    console.log('update blog',id, blogData)
-    return true
+    return exec(sql).then(updateData => {
+        // console.log(updateData)
+        if(updateData.affectedRows > 0){
+            return true
+        }
+        return false
+    })
 }
 
-const deleteBlog = (id) => {
+const deleteBlog = (id,author) => {
     // 根据id 删除blog
-    console.log(id);
-    return false
+    const sql = `delete from blogs where id='${id}' and author = '${author}'`
+    return exec(sql).then(deleteLog => {
+        if(deleteLog.affectedRows > 0){
+            return true
+        }
+        return false
+    })
 }
 module.exports = {
     getList,

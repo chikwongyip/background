@@ -6,9 +6,9 @@ const handleBlogRouter = (req, res) => {
     const method = req.method; //GET or POST
     const path = req.url.split("?")[0]
     const id = req.query.id || ""
+    const author = req.query.author || ""
     //获取blog 列表
     if(method === "GET" && path === "/api/blog/list"){
-        const author = req.query.author || ""
         const keyword = req.query.keyword || ""
         const result = getList(author,keyword)
         return  result.then(listData => {
@@ -40,20 +40,33 @@ const handleBlogRouter = (req, res) => {
 
     if(method === "POST" && path === "/api/blog/update"){
         const result = updateBlog(id,req.body)
-        if(result){
-            return new SuccessModel()
-        }else{
+        return result.then(success => {
+            if(success){
+                return new SuccessModel("更新成功")
+            }
             return new ErrorModel("更新失败")
-        }
+        })
+        // if(result){
+        //     return new SuccessModel()
+        // }else{
+        //     return new ErrorModel("更新失败")
+        // }
     }
 
     if(method === "POST" && path === "/api/blog/del"){
-       const result = deleteBlog(id)
-       if(result){
-        return new SuccessModel()
-       }else{
-        return new ErrorModel("删除失败")
-       }
+
+       const result = deleteBlog(id,author)
+       return result.then(success => {
+            if(success){
+                return new SuccessModel("删除成功")
+            }
+            return new ErrorModel("删除失败")
+       })
+    //    if(result){
+    //     return new SuccessModel()
+    //    }else{
+    //     return new ErrorModel("删除失败")
+    //    }
     }
 
 } 
