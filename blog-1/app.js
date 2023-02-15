@@ -52,9 +52,11 @@ const serverHandle = (req, res) => {
         // 处理user 路由
         const loginData = handleUserRouter(req,res)
         if(loginData){
-            res.end(
-                JSON.stringify(loginData)
-            )
+            loginData.then(userData =>{
+                res.end(
+                    JSON.stringify(userData)
+                )
+            })
             return
         } 
         // 未命中 返回 404

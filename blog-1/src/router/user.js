@@ -6,11 +6,14 @@ const handleUserRouter = (req, res) => {
     const path = url.split("?")[0];
     if(method === "POST" && path === "/api/user/login"){
         const{ username,password } = req.body
-        const login = loginCheck(username,password)
-        if(login){
-            return new SuccessModel()
-        }
-        return new ErrorModel("登录失败") 
+        const result = loginCheck(username,password)
+        return result.then((userData) => {
+            if(userData.username){
+                return new SuccessModel(userData)
+            }
+            return new ErrorModel("登陆失败")
+        })
+         
     }
 }
 module.exports = handleUserRouter;
