@@ -20,14 +20,22 @@ const handleBlogRouter = (req, res) => {
 
     //获取blog详情
     if(method === "GET" && path === "/api/blog/detail"){
-        const blogDetail = getDetail(id)
-        return new SuccessModel(blogDetail)
+        const result = getDetail(id)
+        return result.then( blogDetail => {
+            return new SuccessModel(blogDetail)
+        })
     }
 
     if(method === "POST" && path === "/api/blog/new"){
-        const blogData = req.body
-        const data = newBlog(blogData)
-        return new SuccessModel(data)
+        // const blogData = req.body
+        // const data = newBlog(blogData)
+        // return new SuccessModel(data)
+        // 假数据待开发再改成真数据
+        req.body.author = "zhangsan"
+        const result = newBlog(req.body)
+        return result.then( data => {
+            return new SuccessModel(data)
+        })
     }
 
     if(method === "POST" && path === "/api/blog/update"){

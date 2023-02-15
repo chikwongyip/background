@@ -6,31 +6,45 @@ const getList = (author,keyword) => {
         sql += ` and author = '${author}'`
     }
     if(keyword){
-        sql += ` and title like %${keyword}%`
+        sql += ` and title like '%${keyword}%'`
     }
     // 先返回假数据，（格式是正确的）
     return exec(sql)
 }
 const getDetail = (id) => {
-    return [
-        {
-            id:1,
-            content:"this is content"
-        },
-        {
-            id:2,
-            content:"this is content2"
-        }
-    ]
+    if(id){
+        let sql = `select * from blogs where id = '${id}'`
+        return exec(sql).then(rows => {
+            return rows[0]
+        })
+    }
 }
 const newBlog = (blogData = {}) => {
-    // blogData 包含属性可能有title 内容 时间
-    return{
-        id:3 // 执行完毕返回insert 的blog id
-    }
+    // blogData 包含属性可能有title 内容 author
+    const title = blogData.title
+    const content = blogData.content
+    const author = blogData.author
+    const createtime = Date.now()
+    const sql = `
+        insert into blogs 
+            (title,content,createtime,author)
+        values
+            ('${title}','${content}','${createtime}','${author}')
+    `
+    return exec(sql).then(insertData => {
+        // console.log(insertData)
+        return {
+            id:insertData.insertId
+        }
+    })
 }
 
 const updateBlog = (id,blogData = {}) => {
+    let sql = `update blogs set content = '${blogData.content}',
+                                title = '${blogData.title}',
+                                author = '${blogData.author}'
+                            where id = ${id}`
+    // UPDATE `myblog`.`blogs` SET `title` = 'title2', `content` = 'content3', `author` = 'wyman1' WHERE (`id` = '3');
     // id 就是blog更新的id
     // blogData 包含属性可能有title 内容 时间
     console.log('update blog',id, blogData)
