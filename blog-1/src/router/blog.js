@@ -1,6 +1,11 @@
-const { getList,getDetail,newBlog,updateBlog,deleteBlog } = require("../controller/blog")
-const { SuccessModel, ErrorModel } = require("../model/resModel")
-
+const { getList,
+        getDetail,
+        newBlog,
+        updateBlog,
+        deleteBlog } = require("../controller/blog")
+        
+const { SuccessModel, 
+        ErrorModel } = require("../model/resModel")
 
 const handleBlogRouter = (req, res) => {
     const method = req.method; //GET or POST
@@ -14,10 +19,7 @@ const handleBlogRouter = (req, res) => {
         return  result.then(listData => {
                     return new SuccessModel(listData)
                 })
-        // const listData = getList(author,keyword)
-        // return new SuccessModel(listData)
     }
-
     //获取blog详情
     if(method === "GET" && path === "/api/blog/detail"){
         const result = getDetail(id)
@@ -27,10 +29,7 @@ const handleBlogRouter = (req, res) => {
     }
 
     if(method === "POST" && path === "/api/blog/new"){
-        // const blogData = req.body
-        // const data = newBlog(blogData)
-        // return new SuccessModel(data)
-        // 假数据待开发再改成真数据
+        // 先使用假数据 zhangsan
         req.body.author = "zhangsan"
         const result = newBlog(req.body)
         return result.then( data => {
@@ -46,11 +45,6 @@ const handleBlogRouter = (req, res) => {
             }
             return new ErrorModel("更新失败")
         })
-        // if(result){
-        //     return new SuccessModel()
-        // }else{
-        //     return new ErrorModel("更新失败")
-        // }
     }
 
     if(method === "POST" && path === "/api/blog/del"){
@@ -62,11 +56,6 @@ const handleBlogRouter = (req, res) => {
             }
             return new ErrorModel("删除失败")
        })
-    //    if(result){
-    //     return new SuccessModel()
-    //    }else{
-    //     return new ErrorModel("删除失败")
-    //    }
     }
 
 } 
