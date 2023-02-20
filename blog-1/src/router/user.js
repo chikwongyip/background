@@ -1,5 +1,6 @@
 const { login } = require("../controller/user");
 const { SuccessModel, ErrorModel } = require("../model/resModel");
+const { set } = require("../db/redis")
 //获取cookie过期时间
 
 const handleUserRouter = (req, res) => {
@@ -13,7 +14,8 @@ const handleUserRouter = (req, res) => {
             if(userData.username){
                 req.session.username = userData.username
                 req.session.realname = userData.realname
-                console.log("request session is",req.session)
+                set(req.sessionId,req.session)
+                // console.log("request session is",req.session)
                 return new SuccessModel(userData)
             }
             return new ErrorModel("登陆失败")
