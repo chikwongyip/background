@@ -21,20 +21,5 @@ const handleUserRouter = (req, res) => {
             return new ErrorModel("登陆失败")
         })
     }
-
-    //登录验证的测试
-    if(method === "GET" && req.path === "/api/user/login-test"){
-        console.log(req.session.username)
-        if(req.session.username){
-            console.log(req.session.username)
-            return Promise.resolve(
-                new SuccessModel()
-                )
-        }
-        return Promise.resolve(
-            new ErrorModel("尚未登录")
-            )
-    }
-
 }
 module.exports = handleUserRouter;

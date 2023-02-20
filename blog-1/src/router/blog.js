@@ -7,6 +7,13 @@ const { getList,
 const { SuccessModel, 
         ErrorModel } = require("../model/resModel")
 
+const loginCheck = (req) => {
+    if(!req.session.username){
+        return Promise.resolve(
+            new ErrorModel("尚未登录")
+        )
+    }
+}
 const handleBlogRouter = (req, res) => {
     const method = req.method; //GET or POST
     const path = req.url.split("?")[0]
@@ -27,10 +34,14 @@ const handleBlogRouter = (req, res) => {
             return new SuccessModel(blogDetail)
         })
     }
-
+    // 新增blog
     if(method === "POST" && path === "/api/blog/new"){
-        // 先使用假数据 zhangsan
-        req.body.author = "zhangsan"
+        // 检测是否有登录
+        const loginCheckResult = loginCheck(req)
+        if(loginCheckResult){
+            return loginCheck
+        }
+        req.body.author = req.session.username
         const result = newBlog(req.body)
         return result.then( data => {
             return new SuccessModel(data)
@@ -38,6 +49,11 @@ const handleBlogRouter = (req, res) => {
     }
 
     if(method === "POST" && path === "/api/blog/update"){
+        // 检测是否有登录
+        const loginCheckResult = loginCheck(req)
+        if(loginCheckResult){
+            return loginCheck
+        }
         const result = updateBlog(id,req.body)
         return result.then(success => {
             if(success){
@@ -48,8 +64,12 @@ const handleBlogRouter = (req, res) => {
     }
 
     if(method === "POST" && path === "/api/blog/del"){
-
-       const result = deleteBlog(id,author)
+        // 检测是否有登录
+        const loginCheckResult = loginCheck(req)
+        if(loginCheckResult){
+            return loginCheck
+        }
+       const result = deleteBlog(id,req.session.usernamehor)
        return result.then(success => {
             if(success){
                 return new SuccessModel("删除成功")
