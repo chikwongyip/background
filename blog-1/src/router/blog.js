@@ -22,6 +22,15 @@ const handleBlogRouter = (req, res) => {
     //获取blog 列表
     if(method === "GET" && path === "/api/blog/list"){
         const keyword = req.query.keyword || ""
+        let author = req.query.author || ""
+        if(req.query.isadmin){
+            const loginCheckResult = loginCheck(req)
+            if(loginCheckResult){
+                return loginCheckResult
+            }
+            author = req.session.username
+        }
+
         const result = getList(author,keyword)
         return  result.then(listData => {
                     return new SuccessModel(listData)
@@ -39,7 +48,7 @@ const handleBlogRouter = (req, res) => {
         // 检测是否有登录
         const loginCheckResult = loginCheck(req)
         if(loginCheckResult){
-            return loginCheck
+            return loginCheckResult
         }
         req.body.author = req.session.username
         const result = newBlog(req.body)
@@ -52,7 +61,7 @@ const handleBlogRouter = (req, res) => {
         // 检测是否有登录
         const loginCheckResult = loginCheck(req)
         if(loginCheckResult){
-            return loginCheck
+            return loginCheckResult
         }
         const result = updateBlog(id,req.body)
         return result.then(success => {
@@ -67,7 +76,7 @@ const handleBlogRouter = (req, res) => {
         // 检测是否有登录
         const loginCheckResult = loginCheck(req)
         if(loginCheckResult){
-            return loginCheck
+            return loginCheckResult
         }
        const result = deleteBlog(id,req.session.usernamehor)
        return result.then(success => {
