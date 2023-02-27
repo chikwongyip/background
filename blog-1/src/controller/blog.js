@@ -1,5 +1,5 @@
 const { exec } = require("../db/mysql")   
-
+const xss = require("xss")
 const getList = (author,keyword) => {
     let sql = `select * from blogs where 1=1`
     if(author){
@@ -21,7 +21,7 @@ const getDetail = (id) => {
 }
 const newBlog = (blogData = {}) => {
     // blogData 包含属性可能有title 内容 author
-    const title = blogData.title
+    const title = xss(blogData.title)
     const content = blogData.content
     const author = blogData.author
     const createtime = Date.now()
