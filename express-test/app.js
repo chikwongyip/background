@@ -38,7 +38,13 @@ app.post("/api",(req,res,next) =>{
     next()
 })
 
-app.get("/api/get-cookie",(req,res,next) => {
+function loginCheck(req,res,next){
+    console.log("模拟登录验证")
+    setTimeout(() => {
+       next() 
+    }, );
+}
+app.get("/api/get-cookie",loginCheck,(req,res,next) => {
     console("处理cookie")
     res.json( 
         {
