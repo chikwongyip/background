@@ -11,6 +11,7 @@ const session = require("express-session")
 // var usersRouter = require('./routes/users');
 const blogRouter = require("./routes/blog");
 const userRouter = require("./routes/user");
+const RedisStore = require("connect-redis")(session)
 var app = express();
 
 // view engine setup
@@ -22,13 +23,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+const redisClient = require("./db/redis")
+const sessionStore = new RedisStore({
+  client:redisClient
+})
 app.use(session({
   secret:"waJA12Sasd",//类似密匙
   cookie:{
     path:"/",      // 默认
     httpOnly:true, // 默认
     maxAge:24 * 60 * 60 * 1000
-  }
+  },
+  store:sessionStore
 }))
 // app.use(express.static(path.join(__dirname, 'public')));
 
