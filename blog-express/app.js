@@ -11,7 +11,7 @@ const session = require("express-session")
 // var usersRouter = require('./routes/users');
 const blogRouter = require("./routes/blog");
 const userRouter = require("./routes/user");
-const RedisStore = require("connect-redis")(session)
+const RedisStore = require('connect-redis').default;
 var app = express();
 
 // view engine setup
