@@ -69,7 +69,7 @@
       const $container = $("#blog-container");
 
       // 拼接接口 url
-      let url = "/api/blog/search";
+      let url = "/api/blog/list";
       const urlParams = getUrlParams();
       if (urlParams.author) {
         url += "?author=" + urlParams.author;
