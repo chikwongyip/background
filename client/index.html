@@ -74,10 +74,10 @@
       if (urlParams.author) {
         url += "?author=" + urlParams.author;
       }
-
       // 加载数据
       get(url).then((res) => {
-        if (res.resultCode !== 0) {
+        console.log(res.errno)
+        if (res.errno !== 0) {
           alert("数据错误");
           return;
         }
