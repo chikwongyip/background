@@ -11,7 +11,7 @@ const blogRouter = require("./routes/blog");
 const userRouter = require("./routes/user");
 const session = require("express-session");
 const RedisStore = require('connect-redis')(session);
-
+const writeStream = require("./logs/logs")
 
 var app = express();
 
@@ -19,8 +19,20 @@ var app = express();
 
 // app.set('views', path.join(__dirname, 'views'));
  app.set('view engine', 'jade');
-
-app.use(logger('dev'));
+//设置后台日志
+const ENV = process.env.NODE_ENV
+// 正式环境
+if(ENV !== "production"){
+  app.use(logger('combined',{
+    stream:writeStream
+  }));
+  // 测试黄精
+}else{
+  app.use(logger('dev',{
+    stream:writeStream
+  }));
+}
+// app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
