@@ -78,7 +78,7 @@ const handleBlogRouter = (req, res) => {
         if(loginCheckResult){
             return loginCheckResult
         }
-       const result = deleteBlog(id,req.session.usernamehor)
+       const result = deleteBlog(id,req.session.username)
        return result.then(success => {
             if(success){
                 return new SuccessModel("删除成功")
